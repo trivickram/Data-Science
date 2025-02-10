@@ -691,7 +691,7 @@ header {
     width: auto; /* Ensure aspect ratio is maintained */
   }
   .type-writer{
-    font-size:xx-small;
+    font-size:smaller;
   }
 }
 
