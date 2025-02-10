@@ -690,6 +690,9 @@ header {
     margin-top: 10px;
     width: auto; /* Ensure aspect ratio is maintained */
   }
+  .type-writer{
+    font-size:small;
+  }
 }
 
 .dslogo h2 {
