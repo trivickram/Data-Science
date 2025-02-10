@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Science Club</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: url('https://www.gvpce.ac.in/slideshow/home/Homepageslideshowphotos/2.College&Departments/3.jpg') no-repeat center/cover;
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .navbar {
+      background: linear-gradient(45deg, rgba(0, 0, 0, 0.8), rgba(255, 237, 237, 0.8));
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .navbar .home-btn {
+      text-decoration: none;
+      color: #fff;
+      background-color: #0073e6;
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .navbar .home-btn:hover {
+      background-color: #005bb5;
+    }
+    .navbar .previ {
+      text-decoration: none;
+      color: #fff;
+      background-color: #0073e6;
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .navbar .previ:hover {
+      background-color: #005bb5;
+    }
+
+    .dsc-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 50px 15px;
+      background: linear-gradient(45deg, rgba(58, 155, 109, 0.8), rgba(2, 49, 87, 0.8)), url('images/background.jpg') no-repeat center/cover;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    .dsc-container {
+      max-width: 1200px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      animation: fade 1.5s;
+    }
+
+    .slide img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    @keyframes fade {
+      from {
+        opacity: 0.4;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .prev {
+      left: 10px;
+    }
+
+    .next {
+      right: 10px;
+    }
+
+    .prev:hover, .next:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .dsc-content {
+      flex: 1 1 50%;
+      text-align: justify;
+      background: #000000;
+      opacity: 0.6;
+      border-radius: 20px;
+      margin: 30px 30px 30px 30px;
+      
+    }
+
+    .heading {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      text-align: center;
+      color: #fff;
+      margin-top: 30px;
+    }
+
+    .description {
+      margin-bottom: 15px;
+      font-size: 1rem;
+      color: #dfe3ea;
+    }
+    .new {
+      font-size: 1rem;
+      color: #dfe3ea;
+      font-weight:650;
+      margin: 25px;
+    }
+    .what {
+      display: flex;
+      color: #fff;
+      background-color: #000000;
+      justify-content: center;
+      text-align: center;
+      align-items: center;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    .learn {
+      width: 100%;
+      position: relative;
+      bottom: 40px;
+      background-color: #000000;
+      color: #fff;
+      text-align: center;
+      max-height: 100px;
+      max-width: 400px;
+      border-radius: 50px;
+      padding: 20px;
+      font-size: 1.75rem;
+      font-weight: bold;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .dsc-container {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .description {
+        font-size: 0.9rem;
+      }
+
+      .heading {
+        font-size: 2rem;
+      }
+    }
+
+    .event-text {
+      padding: 20px;
+      margin-top: 50px;
+      margin: 25px;
+    }
+
+    .event-date {
+      font-size: 1.2rem;
+      color: white;
+    }
+
+    .event-description {
+      font-size: 1.5rem;
+      max-width:fit-content;
+      color: white;
+      font-weight: 1000;
+      margin-top: 10px;
+    }
+    .footer {
+      background-color: #000;
+      color: #fff;
+      height: 300px;
+      overflow: hidden; 
+      padding: 20px;
+    }
+    
+    .footer-content {
+      display: flex;
+      gap: 20px;
+      animation: scrollLeft 20s linear infinite; 
+    }
+    
+    .footer-content .item {
+      display: inline-block;
+      text-align: center;
+      width: 200px;
+    }
+    
+    .footer-content .item img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+    
+    
+    @keyframes scrollLeft {
+      0% {
+        transform: translateX(0); 
+      }
+      50% {
+        transform: translateX(-50%); 
+      }
+      100% {
+        transform: translateX(-100%); 
+      }
+    }
+    
+    .footer-content {
+      display: flex;
+      animation: scrollLeft 20s linear infinite;
+    }
+    
+    .footer-content .item {
+      flex-shrink: 0;
+    }
+  
+    .footer-content::after {
+      content: "";
+      flex-grow: 1;
+    }
+    .head-img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+ 
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <a href="index1.html" class="previ">Event Archives</a>
+    <span class="logo">Data Science Club</span>
+    <a href="index.html" class="home-btn">DSC Portal</a>
+  </div>
+
+  <!-- Data Science Club Section -->
+  <section class="dsc-section">
+    <div class="dsc-container">
+      <div class="slideshow-container">
+        <div class="slide">
+          <img src="p.jpeg" alt="Slide 1">
+        </div>
+        <div class="slide">
+          <img src="p1.jpeg" alt="Slide 4">
+        </div>
+        <div class="slide">
+          <img src="p2.jpeg" alt="Slide 4">
+        </div>
+        <div class="slide">
+          <img src="p3.jpeg" alt="Slide 4">
+        </div>
+        <div class="slide">
+          <img src="p4.jpeg" alt="Slide 2">
+        </div>
+        <div class="slide">
+          <img src="p5.jpeg" alt="Slide 3">
+        </div>
+        <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
+        <button class="next" onclick="plusSlides(1)">&#10095;</button>
+      </div>
+      <div class="dsc-content">
+        <h1 class="heading"><img src="python event.jpeg" class="head-img"> Python Workshop</h1>
+        <p class="description">
+          <div class="event-text">
+            <p class="event-date">Date: 28th September 2024</p>
+            <p class="event-description">The Python Workshop helped beginners and intermediates learn programming, covering syntax, data manipulation, and libraries, boosting confidence and skills.</p>
+          <p class="new">
+            The Python Workshop organized by the club provided an excellent opportunity for both beginners and intermediate learners to strengthen their understanding of Python programming. Recognizing Python's significance as a versatile and widely-used language, the workshop covered essential topics, from basic syntax to advanced concepts like data manipulation, file handling, and libraries frequently used in data science.Designed with hands-on learning in mind, the workshop fostered an interactive environment where participants could engage with the material, tackle coding challenges, and collaborate with peers. This approach not only helped students grasp key programming principles but also enabled them to solve real-world problems, reinforcing their skills in a practical setting.By the end of the session, participants left with greater confidence in their ability to use Python for academic and professional projects, making the workshop a valuable experience for learners at various stages of their programming journey.        </div>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="what">
+    <div class="learn">
+      What we learn
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-content">
+      <div class="item">
+        <img src="task-icon.jpeg" alt="Daily Tasks">
+        <h4>Daily Tasks</h4>
+        
+      </div>
+      <div class="item">
+        <img src="cq1.jpeg" alt="Learning">
+        <h4>Learning</h4>
+        
+      </div>
+      <div class="item">
+        <img src="cq2.jpeg" alt="Leadership">
+        <h4>Leadership</h4>
+       
+      </div>
+      <div class="item">
+        <img src="cq3.jpeg" alt="Conferences">
+        <h4>Conferences</h4>
+        
+      </div>
+      <div class="item">
+        <img src="cod.jpeg" alt="Coding Challenges">
+        <h4>Coding Challenges</h4>
+        
+      </div>
+      <div class="item">
+        <img src="workshop-icon.jpeg" alt="Workshops">
+        <h4>Workshops</h4>
+        
+      </div>
+      <div class="item">
+        <img src="collaboration-icon.jpeg" alt="Team Collaborations">
+        <h4>Team Collaborations</h4>
+        
+      </div>
+      <div class="item">
+        <img src="com.jpeg" alt="Community Engagement">
+        <h4>Community Engagement</h4>
+        
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let slideIndex = 0;
+    showSlides();
+
+    function showSlides() {
+      const slides = document.querySelectorAll('.slide');
+      slides.forEach(slide => slide.style.display = 'none');
+      slideIndex++;
+      if (slideIndex > slides.length) slideIndex = 1;
+      slides[slideIndex - 1].style.display = 'block';
+      setTimeout(showSlides, 3000); // Change slide every 3 seconds
+    }
+
+    function plusSlides(n) {
+      slideIndex += n - 1;
+      showSlides();
+    }
+  </script>
+</body>
+</html>

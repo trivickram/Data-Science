@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Previous Events</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+body {
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 90px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  overflow-y: auto;
+  color: #fff;
+  box-sizing: border-box;
+  position: relative; /* For proper positioning of content over the video */
+}
+
+.video-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Places the video behind the content */
+  overflow: hidden;
+}
+
+video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: cover; /* Ensures the video covers the entire background */
+}
+
+  
+    h2 {
+      color: #fff;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+      font-weight: 600;
+      text-shadow: 3px 6px 10px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 1s ease-in-out;
+    }
+  
+    /* Container styling */
+    .container {
+      width: 100%;
+      max-width: 900px;
+      padding: 20px;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      overflow: hidden;
+      animation: fadeInUp 1s ease-out;
+    }
+  
+  
+    /* Event card styling */
+    .event-card {
+      margin-top: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.3s;
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+  
+    .event-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 20px rgba(0, 204, 255, 0.5);
+    }
+  
+  /* Collapsible button styling */
+.collapsible {
+  position: relative; /* Ensure the pseudo-element is positioned relative to the button */
+  cursor: pointer;
+  padding: 15px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  border: none;
+  outline: none;
+  width: 100%;
+  text-align: left;
+  color: white;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(45deg, #0056b3, #9eb8d3);
+  transition: box-shadow 0.6s ease;
+  overflow: hidden; /* Keep the pseudo-element inside the button bounds */
+  z-index: 0; /* Ensure the main button content is on a lower layer */
+}
+
+.collapsible:hover {
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.5);
+}
+
+.collapsible::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #0f0f0f, #004080);
+  z-index: -1; /* Place it behind the button content */
+  transition: opacity 0.6s ease; /* Smooth transition */
+  opacity: 0; /* Initially hidden */
+}
+
+.collapsible:hover::before {
+  opacity: 1; /* Gradually appear on hover */
+}
+
+.collapsible:after {
+  content: '\25BC';
+  font-size: 1rem;
+  transition: transform 0.4s ease;
+  color: white;
+  z-index: 1; /* Ensure the arrow remains visible */
+}
+
+.collapsible.active:after {
+  transform: rotate(180deg);
+}
+
+.collapsible * {
+  position: relative;
+  z-index: 2; /* Ensure all text and child elements are above the background */
+}
+
+  
+    /* Content styling */
+    .content {
+      display: block;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+      max-height: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+  
+    .content.show {
+      max-height: 500px;
+      padding: 10px 15px;
+      animation: fadeInContent 0.6s ease-in-out;
+    }
+  
+    /* Table styling */
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 10px;
+      margin: 15px 0;
+    }
+  
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-radius: 10px;
+    }
+  
+    th {
+      font-size: 1rem;
+      color: white;
+      background: linear-gradient(135deg, #007bff, #0056b3);
+      font-weight: bold;
+    }
+  
+    td {
+      border-bottom: 1px solid #ddd;
+      background:black;
+      backdrop-filter: blur(6px);
+    }
+  
+    td ul {
+      margin: 0;
+      padding-left: 20px;
+      list-style-type: disc;
+    }
+  
+    /* Event image styling */
+    .event-image {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      place-items: center;
+      max-height: auto;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+  
+    .event-image:hover {
+      transform: scale(1.02);
+    }
+  
+    /* View images button styling */
+    .view-images-button {
+      display: inline-block;
+      padding: 10px 25px;
+      margin-top: 15px;
+      background: linear-gradient(135deg, #28a745, #218838);
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: transform 0.3s;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+  
+    .view-images-button:hover {
+      transition: ease 1s;
+      background: linear-gradient(135deg, #218838, #19692c);
+      transform: scale(1.05);
+    }
+  
+    .slide-image1 {
+  display: flex;
+}
+
+.slide-image1 img {
+  width: 100%;
+  height: 200px; /* Set a fixed height for uniform size */
+  margin-bottom: 10px;
+  border-radius: 10px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.slide-image2 {
+  display: flex;
+}
+
+.slide-image2 img {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.slide-image3 {
+  display: flex;
+}
+
+.slide-image3 img {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.slide-image4 {
+  display: flex;
+}
+
+.slide-image4 img {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.slide-image5 {
+  display: flex;
+}
+
+.slide-image5 img {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.slide-image6 {
+  display: flex;
+}
+
+.slide-image6 img {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.slide-image7 {
+  display: flex;
+}
+
+.slide-image7 img {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.slide-image8 {
+  display: flex;
+}
+
+.slide-image8 img {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.slide-image9 {
+  display: flex;
+}
+
+.slide-image9 img {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.slide-image10 {
+  display: flex;
+}
+
+.slide-image10 img {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.slide-image11 {
+  display: flex;
+}
+
+.slide-image11 img {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+    .head {
+  display: flex;
+  gap: 20px;
+  justify-content: left;
+  align-items: center;
+  width: 100%;
+  padding: 10px 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background: transparent;
+}
+
+.head::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(128, 115, 115, 0.6), rgba(0, 0, 0, 0.6));
+  z-index: -1;
+  border-radius: 0;
+}
+
+.head a {
+  position: relative;
+  z-index: 1;
+  color: white;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+
+
+    a {
+  color: white;
+  width: 100%;
+  max-width: 200px;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
+  background-color: black;
+  padding: 10px;
+  margin-left: 10px;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  transition: background-color 1.5s ease-in-out, color 1.5s ease-in-out;
+  
+}
+
+a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(248, 248, 248, 0.8), rgba(0, 0, 0, 0.8));
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+  border-radius: 10px;
+}
+
+a:hover::before {
+  opacity: 0.5;
+}
+
+a:hover {
+  color: rgb(156, 30, 30);
+}
+.search {
+  position: relative;
+  z-index: 1;
+  padding: 20px;
+  display: flex;
+  gap:10px;
+  flex-direction: row;
+  justify-content: right;
+  align-items: right;
+  width: 100%;
+}
+
+.input {
+  width: 400px;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #333;
+  box-sizing: border-box;
+}
+
+.input::placeholder {
+  color: #999;
+  opacity: 0.7;
+}
+
+.input:focus {
+  border-color: #007BFF;
+  outline: none;
+}
+
+.search-button {
+  padding: 10px;
+  border-radius: 10px;
+  background-color: black;
+  color: white;
+  margin-right: 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.5s ease-in-out, color 1.5s ease-in-out;
+}
+.search-button:hover {
+  background-color: rgb(59, 79, 192);
+  color: white;
+}
+.buttons {
+  display: flex;
+  gap: 335px;
+  flex-direction: row;
+  justify-content: left;
+  align-items: left;
+}
+.sub {
+  display: flex;
+  width: 100%;
+  max-width: 500px;
+  justify-content: right;
+  align-items: right;
+}
+.text {
+  display:flex;
+  width:100%;
+  max-width:400px;
+  justify-content:left;
+  align-items:left;
+}
+.suggestion-box {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #fffae6;
+      color: #333;
+      padding: 10px 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      font-size: 14px;
+      border: 2px solid #f8c042;
+      animation: slide-in 1s ease forwards;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 9999; /* Ensures it's above all other elements */
+    }
+    .suggestion-box:hover {
+      cursor: pointer;
+    }
+    .suggestion-box span {
+      font-weight: bold;
+    }
+    .suggestion-box .close-btn {
+      margin-left: auto;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      color: #888;
+      transition: color 0.3s ease;
+    }
+    .suggestion-box .close-btn:hover {
+      color: #333;
+    }
+    @keyframes slide-in {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    /* Responsive styling */
+    @media (max-width: 900px) {
+      .container {
+        padding: 20px;
+      }
+      .collapsible {
+        font-size: 1.2rem;
+        padding: 15px;
+      }
+      .content {
+        padding: 10px;
+      }
+      th, td {
+        padding: 10px;
+      }
+      .view-images-button {
+        font-size: 1rem;
+        padding: 10px 20px;
+      }
+}
+
+    @media (max-width: 600px) {
+      h2 {
+        font-size: 2rem;
+      }
+  
+      .collapsible {
+        font-size: 1.1rem;
+        padding: 12px;
+      }
+  
+      .content {
+        padding: 8px;
+      }
+  
+      th, td {
+        padding: 8px;
+      }
+  
+      .view-images-button {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+      }
+    }
+  
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  
+    @keyframes fadeInContent {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+  
+</head>
+<body>
+  <div class="video-container">
+    <video autoplay muted loop playsinline>
+      <source src="background.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <div class="head">
+  <div class="top"><a href="index.html">DSC Portal</a></div>
+  <div class="search"><input type="text" class="input" placeholder="Search 🔍"><button class="search-button">Search</button></div>
+  </div>
+
+  <div class="suggestion-box" id="suggestionBox">
+    <span>Hover over the images to change image!</span>
+    <div class="close-btn" onclick="closeSuggestion()">×</div>
+  </div>
+
+<h2>Previous Events</h2>
+
+<div class="container">
+  <div class="event-card" id="datastruct_event">
+    <button class="collapsible"><div class="text">Data Structures and Algorithms (Dec-28 2024)</div>
+        <div class="sub">
+        <div class="slide-image11">
+            <img src="poster.jpg" alt="Data Struct Event" class="event-image">
+        </div>
+        </div>
+    </button>
+    <div class="content">
+        <table>
+            <tr>
+                <th>Organized By</th>
+                <td>Data Science Club GVPCE(A)</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>Comprehensive review of key DSA concepts with hands-on practice for arrays, linked lists, stacks, queues, and more.</td>
+            </tr>
+            <tr>
+                <th>Objectives</th>
+                <td>
+                    <ul>
+                        <li>Revisit and strengthen DSA fundamentals</li>
+                        <li>Enhance coding and problem-solving skills</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>Speakers</th>
+                <td>Peer-led sessions by Data Science students</td>
+            </tr>
+        </table>
+        <div class="buttons">
+            <a href="https://drive.google.com/drive/folders/18xxAk3BjQ8y00iyCWzDOlpcHKyYfocoN?usp=drive_link" class="view-images-button">View Event Images</a>
+            <a href="datastruct.html" class="view-images-button">More Details</a>
+        </div>
+    </div>
+</div>
+<div class="event-card" id="ai_summit_event">
+  <button class="collapsible"><div class="text">AI Summit (Dec-16 2024)</div>
+      <div class="sub">
+      <div class="slide-image10">
+          <img src="7.png" alt="AI Summit Event" class="event-image">
+      </div>
+      </div>
+  </button>
+  <div class="content">
+      <table>
+          <tr>
+              <th>Organized By</th>
+              <td>Data Science Club GVPCE(A)</td>
+          </tr>
+          <tr>
+              <th>Description</th>
+              <td>Empowering students in advanced AI technologies with insights on career success, AI agents, and interview preparation.</td>
+          </tr>
+          <tr>
+              <th>Objectives</th>
+              <td>
+                  <ul>
+                      <li>Learn about AI and Data Science roles</li>
+                      <li>Understand key characteristics and types of AI agents</li>
+                      <li>Master interview preparation techniques</li>
+                  </ul>
+              </td>
+          </tr>
+          <tr>
+              <th>Speakers</th>
+              <td>
+                  <strong>Dr. P. Satya Jayadev:</strong> Principal Data Scientist<br>
+                  <strong>Mr. Raghu Pulaparthi:</strong> Sr. Director, K2 Partnering Solutions<br>
+                  <strong>Mr. Santosh Nimmani:</strong> Senior DevOps Engineer
+              </td>
+          </tr>
+      </table>
+      <div class="buttons">
+          <a href="https://drive.google.com/drive/folders/1yBbklx6Zdz82fyoIZoYMfUur1zwe81wg?usp=drive_link" class="view-images-button">View Event Images</a>
+          <a href="ai.html" class="view-images-button">More Details</a>
+      </div>
+  </div>
+</div>
+    <div class="event-card" id="algozenith_event">
+      <button class="collapsible"><div class="text">Algozenith (Nov-28 2024)</div>
+          <div class="sub">
+          <div class="slide-image9">
+              <img src="IMG-20241128-WA0011.jpg" alt="AlgoZenith Event" class="event-image">
+          </div>
+          </div>
+      </button>
+      <div class="content">
+          <table>
+              <tr>
+                  <th>Organized By</th>
+                  <td>GVPCE(A)</td>
+              </tr>
+              <tr>
+                  <th>Description</th>
+                  <td>Insights on internships and placements at MAANG companies with industry leaders Vivek Gupta and Prayag Dwivedi.</td>
+              </tr>
+              <tr>
+                  <th>Objectives</th>
+                  <td>
+                      <ul>
+                          <li>Understand career strategies for top-tier companies</li>
+                          <li>Leverage LinkedIn and networking techniques</li>
+                      </ul>
+                  </td>
+              </tr>
+              <tr>
+                  <th>Speakers</th>
+                  <td>
+                      <strong>Vivek Gupta:</strong> Co-founder of AlgoZenith, Ex-Google Engineer<br>
+                      <strong>Prayag Dwivedi:</strong> Community Manager at Lotus Interworks
+                  </td>
+              </tr>
+          </table>
+          <div class="buttons">
+              <a href="https://drive.google.com/drive/folders/164APmSbS97KTw7gbHIRx_tIR-hdZ-XTJ?usp=drive_link" class="view-images-button">View Event Images</a>
+              <a href="#" class="view-images-button">More Details</a>
+          </div>
+      </div>
+  </div>
+
+        <div class="event-card" id="code_quest_event">
+          <button class="collapsible"><div class="text">Code Quest (Nov-25 2024)</div>
+              <div class="sub">
+              <div class="slide-image8">
+                  <img src="6.jpg" alt="Code Quest Event" class="event-image">
+              </div>
+              </div>
+          </button>
+          <div class="content">
+              <table>
+                  <tr>
+                      <th>Organized By</th>
+                      <td>Data Science Club</td>
+                  </tr>
+                  <tr>
+                      <th>Description</th>
+                      <td>A competitive coding contest with programming challenges ranging from beginner to expert levels.</td>
+                  </tr>
+                  <tr>
+                      <th>Objectives</th>
+                      <td>
+                          <ul>
+                              <li>Enhance competitive coding skills</li>
+                              <li>Build time management and problem-solving strategies</li>
+                          </ul>
+                      </td>
+                  </tr>
+                  <tr>
+                      <th>Organizing Committee</th>
+                      <td>
+                          <strong>Student Conveners:</strong> Pranay Varanasi, S. Bhuvana Sandhya<br>
+                          <strong>Poster Makers:</strong> P. Vinod Kumar, T. Teja Shree
+                      </td>
+                  </tr>
+              </table>
+              <div class="buttons">
+                  <a href="https://drive.google.com/drive/folders/1sNzxj5mcHjNk_PeQ_GuoreFAWj-X_GLT?usp=drive_link" class="view-images-button">View Event Images</a>
+                  <a href="code.html" class="view-images-button">More Details</a>
+              </div>
+          </div>
+      </div>
+
+        <div class="event-card" id="get_the_git">
+          <button class="collapsible"><div class="text">Get the Git (Nov-11 2024)</div>
+            <div class="sub">
+            <div class="slide-image7">
+              <img src="5.jpg" alt="Get the Git Event" class="event-image">
+            </div>
+            </div>
+          </button>
+          <div class="content">
+            <table>
+              <tr>
+                <th>Organized By</th>
+                <td>Data Science Club</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>An interactive workshop introducing Git and GitHub, essential tools for version control and collaboration.</td>
+              </tr>
+              <tr>
+                <th>Objectives</th>
+                <td>
+                  <ul>
+                    <li>Understand the fundamentals of Git and version control</li>
+                    <li>Learn essential Git commands and syntax</li>
+                    <li>Create and manage repositories on GitHub</li>
+                    <li>Work with branching and merging</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th>Organizing Committee</th>
+                <td>
+                  <strong>Programme Conveners:</strong> Dr. Y. Anuradha, Prof. A. B. Koteswara Rao<br>
+                  <strong>Student Conveners:</strong> S. Bhuvana Sandhya, V. Pranay, M. Kavya Sri<br>
+                  <strong>Speakers:</strong> K. V. R. Karthik
+                </td>
+              </tr>
+            </table>
+            <div class="buttons">
+              <a href="https://drive.google.com/drive/folders/1AjAjd2HlEAdY8r-bBYXCVCeL_UiZPymc?usp=drive_link" class="view-images-button">View Event Images</a>
+              <a href="git.html" class="view-images-button"> More Details</a>
+              </div>
+          </div>
+        </div>
+        <div class="event-card" id="python_workshop">
+          <button class="collapsible"><div class="text">Python Programming Workshop (Sept-28 2024)</div>
+            <div class="sub">
+            <div class="slide-image6">
+              <img src="pyposter.png" alt="Python Workshop Event" class="event-image">
+            </div>
+            </div>
+          </button>
+          <div class="content">
+            <table>
+              <tr>
+                <th>Organized By</th>
+                <td>Data Science Club</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A hands-on Python workshop covering the fundamentals, syntax, control structures, and functions.</td>
+              </tr>
+              <tr>
+                <th>Objectives</th>
+                <td>
+                  <ul>
+                    <li>Understand Python Fundamentals</li>
+                    <li>Implement Control Structures</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th>Organizing Committee</th>
+                <td>
+                  <strong>Programme Convener:</strong> Dr. Y. Anuradha<br>
+                  <strong>Student Conveners:</strong> S. Bhuvana Sandhya, V. Pranay
+                </td>
+              </tr>
+            </table>
+            <div class="buttons">
+              <a href="https://drive.google.com/drive/folders/1W5_piG2XYPjYpnOoM4roiWUFHfiBjaB5?usp=drive_link" class="view-images-button">View Event Images</a>
+              <a href="1python.html" class="view-images-button"> More Details</a>
+              </div>
+          </div>
+          </div>
+        <div class="event-card" id="data_dynasty">
+          <button class="collapsible"><div class="text">Data Dynasty (Sept-13 2024)</div>
+            <div class="sub">
+            <div class="slide-image5">
+              <img src="poster1.png" alt="Data Dynasty Event" class="event-image">
+            </div>
+            </div>
+          </button>
+          <div class="content">
+            <table>
+              <tr>
+                <th>Organized By</th>
+                <td>Data Science Club</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>An introductory event for freshers to Data Science through talks, games, and networking with seniors.</td>
+              </tr>
+              <tr>
+                <th>Objectives</th>
+                <td>
+                  <ul>
+                    <li>Understand basics of Data Science</li>
+                    <li>Learn about real-world applications</li>
+                    <li>Test their knowledge</li>
+                    <li>Get inspired to explore Data Science</li>
+                  </ul>
+                </td>
+              </tr>
+            </td>
+          </tr>
+          <tr>
+            <th>Organizing Committee</th>
+            <td>
+              <strong>Programme Coordinators:</strong> Durga Rao, Rithwik, Sindhuja<br>
+              <strong>Student Conveners:</strong> S. Bhuvana Sandhya, V. Pranay
+            </td>
+          </tr>
+        </table>
+        <div class="buttons">
+        <a href="https://drive.google.com/drive/folders/14NxLX_CsRQNp38flEe75JP1TXxqELvG9?usp=drive_link" class="view-images-button">View Event Images</a>
+        <a href="datadynasty.html" class="view-images-button"> More Details</a>
+        </div>
+      </div>
+      </div>
+    <div class="event-card" id="bug_busters">
+      <button class="collapsible"><div class="text">Bug Busters (Mar-03 2023)</div>
+        <div class="sub">
+        <div class="slide-image4">
+          <img src="bug.jpg" alt="Bug Busters Event" class="event-image">
+        </div>
+        </div>
+      </button>
+      <div class="content">
+        <table>
+          <tr>
+            <th>Organized By</th>
+            <td>Data Science Club</td>
+          </tr>
+          <tr>
+            <th>Description</th>
+            <td>A flagship event of EKATHRA 2K23, testing participants' debugging and problem-solving skills.</td>
+          </tr>
+          <tr>
+            <th>Objectives</th>
+            <td>
+              <ul>
+                <li>Diagnose and resolve coding challenges</li>
+                <li>Enhance debugging and problem-solving skills</li>
+                <li>Foster a collaborative learning environment</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>Event Highlights</th>
+            <td>
+              <strong>Prizes:</strong><br>
+              1st Prize: ₹3000<br>
+              2nd Prize: ₹2000<br>
+              3rd Prize: ₹1000<br>
+              <strong>Winners:</strong><br>
+              Siddharth, S. Venkata Vivek, K. S. S. Bringsh
+            </td>
+          </tr>
+        </table>
+        <div class="buttons">
+          <a href="data_dynasty_images.html" class="view-images-button">View Event Images</a>
+          <a href="bug.html" class="view-images-button"> More Details</a>
+          </div>
+      </div>
+    </div>
+
+        
+        <div class="event-card" id="cook_the_code">
+          <button class="collapsible"><div class="text">Cook the Code (Dec-10 2022)</div>
+            <div class="sub">
+            <div class="slide-image3">
+              <img src="cook.jpg" alt="Cook the Code Event" class="event-image">
+            </div>
+            </div>
+          </button>
+          <div class="content">
+            <table>
+              <tr>
+                <th>Organized By</th>
+                <td>Data Science Club</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Put your coding skills to the test in this competitive event.</td>
+              </tr>
+              <tr>
+                <th>Objectives</th>
+                <td>
+                  <ul>
+                    <li>Showcase coding talent and problem-solving abilities.</li>
+                    <li>Enhance technical skills under time constraints.</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th>Winners</th>
+                <td>
+                  <strong>1st Place:</strong> Uday Kiran<br>
+                  <strong>2nd Place:</strong> Sri Varshith<br>
+                  <strong>3rd Place:</strong> Sussanth
+                </td>
+              </tr>
+              <tr>
+                <th>Rewards</th>
+                <td>
+                  Thrilling prizes for the Top 3 winners.<br>
+                  Merit certificates for the Top 5 participants.
+                </td>
+              </tr>
+            </table>
+            <div class="buttons">
+              <a href="cook_the_code_images.html" class="view-images-button">View Event Images</a>
+              <a href="#" class="view-images-button">More Details</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="event-card" id="golden_duo">
+          <button class="collapsible"><div class="text">Golden DUO (Dec-10 2022)</div>
+            <div class="sub">
+            <div class="slide-image2">
+              <img src="30.jpg" alt="Golden DUO Event" class="event-image">
+            </div>
+            </div>
+          </button>
+          <div class="content">
+            <table>
+              <tr>
+                <th>Organized By</th>
+                <td>Data Science Club</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A vibrant event packed with knowledge-sharing, skill-building, and fun activities.</td>
+              </tr>
+              <tr>
+                <th>Objectives</th>
+                <td>
+                  <ul>
+                    <li>Explore the world of Data Science</li>
+                    <li>Test coding prowess in "Cook the Code"</li>
+                    <li>Engage in fun activities like "Rapid Type"</li>
+                    <li>Learn fundamentals of Data Science</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th>Organizing Committee</th>
+                <td>
+                  <strong>Programme Coordinators:</strong> Akhil, Harsha<br>
+                  <strong>Event Highlights:</strong> Data Talks, Cook the Code, Rapid Type
+                </td>
+              </tr>
+            </table>
+            <div class="buttons">
+              <a href="data_dynasty_images.html" class="view-images-button">View Event Images</a>
+              <a href="goldenduo.html" class="view-images-button"> More Details</a>
+              </div>
+          </div>
+        </div>
+        
+        <div class="event-card" id="inauguration">
+          <button class="collapsible"><div class="text">Inauguration (Dec-10 2022)</div>
+            <div class="sub">
+            <div class="slide-image1">
+              <img src="golden_duo.jpg" alt="Golden DUO Event" class="event-image">
+            </div>
+            </div>
+          </button>
+          <div class="content">
+            <table>
+              <tr>
+                <th>Organized By</th>
+                <td>Data Science Club</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A vibrant event packed with knowledge-sharing, skill-building, and fun activities.</td>
+              </tr>
+              <tr>
+                <th>Objectives</th>
+                <td>
+                  <ul>
+                    <li>Explore the world of Data Science</li>
+                    <li>Test coding prowess in "Cook the Code"</li>
+                    <li>Engage in fun activities like "Rapid Type"</li>
+                    <li>Learn fundamentals of Data Science</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th>Organizing Committee</th>
+                <td>
+                  <strong>Programme Coordinators:</strong> Akhil, Harsha<br>
+                  <strong>Event Highlights:</strong> Data Talks, Cook the Code, Rapid Type
+                </td>
+              </tr>
+            </table>
+            <div class="buttons">
+              <a href="data_dynasty_images.html" class="view-images-button">View Event Images</a>
+              <a href="inaugaration.html" class="view-images-button"> More Details</a>
+              </div>
+          </div>
+        </div>
+        
+</div>
+
+<script>
+var coll = document.getElementsByClassName("collapsible");
+for (var i = 0; i < coll.length; i++) {
+coll[i].addEventListener("click", function() {
+  var content = this.nextElementSibling;
+
+  for (var j = 0; j < coll.length; j++) {
+    var otherContent = coll[j].nextElementSibling;
+    if (coll[j] !== this) {
+      coll[j].classList.remove("active");
+      otherContent.style.maxHeight = null;
+      otherContent.classList.remove("show");
+    }
+  }
+
+  this.classList.toggle("active");
+  if (content.style.maxHeight) {
+    content.style.maxHeight = null;
+    content.classList.remove("show");
+  } else {
+    content.classList.add("show");
+    content.style.maxHeight = content.scrollHeight + "px";
+    content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+});
+}
+
+function searchEvent() {
+    var input = document.querySelector(".input").value;
+    var eventCards = document.querySelectorAll(".event-card");
+    var matchFound = false;  // Variable to track if a match is found
+    console.log(eventCards);
+    for (var i = 0; i < eventCards.length; i++) {
+        var eventName = eventCards[i].id.replace(/_/g, " ");
+        if (eventName.toLowerCase().includes(input.toLowerCase())) {
+            eventCards[i].style.display = "block";
+            matchFound = true;  // Set matchFound to true if a match is found
+        } else {
+            eventCards[i].style.display = "none";
+        }
+    }
+    if (!matchFound) {
+        // Redirect to a different webpage if no match is found
+        window.open("error.html");
+        document.querySelector(".input").value = "";
+    }
+}
+
+document.querySelector(".search-button").addEventListener("click", searchEvent);
+
+document.querySelector(".input").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        searchEvent();
+    }
+});
+
+function closeSuggestion() {
+      const suggestionBox = document.getElementById('suggestionBox');
+      suggestionBox.style.display = 'none';
+    }
+
+// Image arrays for slide-image1 and slide-image2
+var imageArray1 = [];
+var imageArray2 = ["30.jpg", "40.jpg"];
+var imageArray3 = ["cook.jpg"];
+var imageArray4 = ["bug.jpg", "20.jpg"];
+var imageArray5 = ["20240913_104608.jpg", "20240913_104710.jpg","20240913_111844.jpg"];
+var imageArray6 = ["1.png", "IMG20240928104802.jpg", "IMG20240928110422.jpg", "IMG20240928110440.jpg"];
+var imageArray7 = ["5.jpg", "IMG_20241111_164233(1).jpg", "IMG-20241111-WA0097.jpg", "Scanned_20241112-0924-07.jpg", "Scanned_20241112-0932-05.jpg"];
+var imageArray8 = ["6.jpg", "IMG_0359.jpg", "IMG_0363.jpg", "IMG_0364.jpg"];
+var imageArray9 = ["IMG-20241128-WA0011.jpg", "IMG-20241128-WA0014.jpg", "IMG-20241128-WA0030.jpg", "IMG-20241128-WA0043.jpg"];
+var imageArray10 = ["7.png", "IMG_1116.jpg", "IMG_1118.jpg", "IMG_1146.jpg"];
+var imageArray11 = ["Poster.jpg", "IMG_3321.JPG", "IMG_3328.JPG", "IMG_3341.JPG"];
+var interval1, interval2, interval3, interval4, interval5, interval6, interval7, interval8, interval9, interval10, interval11;
+
+function changeImage1() {
+var image1 = document.querySelector(".slide-image1 img");
+var index1 = imageArray1.indexOf(image1.src.split('/').pop());
+image1.src = imageArray1[(index1 + 1) % imageArray1.length];
+}
+
+function changeImage2() {
+var image2 = document.querySelector(".slide-image2 img");
+var index2 = imageArray2.indexOf(image2.src.split('/').pop());
+image2.src = imageArray2[(index2 + 1) % imageArray2.length];
+}
+
+function changeImage3() {
+var image3 = document.querySelector(".slide-image3 img");
+var index3 = imageArray3.indexOf(image3.src.split('/').pop());
+image3.src = imageArray3[(index3 + 1) % imageArray3.length];
+}
+
+function changeImage4() {
+var image4 = document.querySelector(".slide-image4 img");
+var index4 = imageArray4.indexOf(image4.src.split('/').pop());
+image4.src = imageArray4[(index4 + 1) % imageArray4.length];
+}
+
+function changeImage5() {
+var image5 = document.querySelector(".slide-image5 img");
+var index5 = imageArray5.indexOf(image5.src.split('/').pop());
+image5.src = imageArray5[(index5 + 1) % imageArray5.length];
+}
+
+function changeImage6() {
+var image6 = document.querySelector(".slide-image6 img");
+var index6 = imageArray6.indexOf(image6.src.split('/').pop());
+image6.src = imageArray6[(index6 + 1) % imageArray6.length];
+}
+
+function changeImage7() {
+var image7 = document.querySelector(".slide-image7 img");
+var index7 = imageArray7.indexOf(image7.src.split('/').pop());
+image7.src = imageArray7[(index7 + 1) % imageArray7.length];
+}
+
+function changeImage8() {
+var image8 = document.querySelector(".slide-image8 img");
+var index8 = imageArray8.indexOf(image8.src.split('/').pop());
+image8.src = imageArray8[(index8 + 1) % imageArray8.length];
+}
+
+function changeImage9() {
+var image9 = document.querySelector(".slide-image9 img");
+var index9 = imageArray9.indexOf(image9.src.split('/').pop());
+image9.src = imageArray9[(index9 + 1) % imageArray9.length];
+}
+
+function changeImage10() {
+var image10 = document.querySelector(".slide-image10 img");
+var index10 = imageArray10.indexOf(image10.src.split('/').pop());
+image10.src = imageArray10[(index10 + 1) % imageArray10.length];
+}
+function changeImage11() { 
+var image11 = document.querySelector(".slide-image11 img");
+var index11 = imageArray11.indexOf(image11.src.split('/').pop());
+image11.src = imageArray11[(index11 + 1) % imageArray11.length]; 
+}
+
+document.querySelector(".slide-image1").addEventListener("mouseover", function() {
+interval1 = setInterval(changeImage1, 3000);
+});
+document.querySelector(".slide-image1").addEventListener("mouseout", function() {
+clearInterval(interval1);
+});
+
+document.querySelector(".slide-image2").addEventListener("mouseover", function() {
+interval2 = setInterval(changeImage2, 3000);
+});
+document.querySelector(".slide-image2").addEventListener("mouseout", function() {
+clearInterval(interval2);
+});
+
+document.querySelector(".slide-image3").addEventListener("mouseover", function() {
+interval3 = setInterval(changeImage3, 3000);
+});
+document.querySelector(".slide-image3").addEventListener("mouseout", function() {
+clearInterval(interval3);
+});
+
+document.querySelector(".slide-image4").addEventListener("mouseover", function() {
+interval4 = setInterval(changeImage4, 3000);
+});
+document.querySelector(".slide-image4").addEventListener("mouseout", function() {
+clearInterval(interval4);
+});
+
+document.querySelector(".slide-image5").addEventListener("mouseover", function() {
+interval5 = setInterval(changeImage5, 3000);
+});
+document.querySelector(".slide-image5").addEventListener("mouseout", function() {
+clearInterval(interval5);
+});
+
+document.querySelector(".slide-image6").addEventListener("mouseover", function() {
+interval6 = setInterval(changeImage6, 3000);
+});
+document.querySelector(".slide-image6").addEventListener("mouseout", function() {
+clearInterval(interval6);
+});
+
+document.querySelector(".slide-image7").addEventListener("mouseover", function() {
+interval7 = setInterval(changeImage7, 3000);
+});
+document.querySelector(".slide-image7").addEventListener("mouseout", function() {
+clearInterval(interval7);
+});
+
+document.querySelector(".slide-image8").addEventListener("mouseover", function() {
+interval8 = setInterval(changeImage8, 3000);
+});
+document.querySelector(".slide-image8").addEventListener("mouseout", function() {
+clearInterval(interval8);
+});
+
+document.querySelector(".slide-image9").addEventListener("mouseover", function() {
+interval9 = setInterval(changeImage9, 3000);
+});
+document.querySelector(".slide-image9").addEventListener("mouseout", function() {
+clearInterval(interval9);
+});
+
+document.querySelector(".slide-image10").addEventListener("mouseover", function() {
+interval10 = setInterval(changeImage10, 3000);
+});
+document.querySelector(".slide-image10").addEventListener("mouseout", function() {
+clearInterval(interval10);
+});
+
+document.querySelector(".slide-image11").addEventListener("mouseover", function() { 
+interval11 = setInterval(changeImage11, 3000);
+});
+document.querySelector(".slide-image11").addEventListener("mouseout", function() {
+clearInterval(interval11);
+});
+
+</script>
+
+</body>
+</html>

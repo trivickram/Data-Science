@@ -1,0 +1,111 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>video1</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="stylesheet.css">
+        <script>
+            function toggleMenu() {
+              const sideMenu = document.getElementById('sideMenu');
+              const menuIcon = document.getElementById('menuIcon');
+              const overlay = document.getElementById('overlay');
+          
+              // Toggle menu visibility
+              if (sideMenu.style.left === '0px') {
+                sideMenu.style.left = '-250px'; 
+                overlay.classList.remove('active'); 
+                menuIcon.style.display = 'block'; 
+              } else {
+                sideMenu.style.left = '0px'; 
+                overlay.classList.add('active'); 
+                menuIcon.style.display = 'none'; 
+              }
+            }  
+            </script>
+    </head>
+    <body>
+        <header>
+        <div class="menu-container">
+            <div class="menu-icon" id="menuIcon" onclick="toggleMenu()">☰</div>
+            <div class="side-menu" id="sideMenu">
+              <nav class="menu">
+                <a href="main.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="events.html">Events</a>
+                <a href="team.html">Team</a>
+                <a href="contact.html">Contact</a>
+              </nav>
+            </div>
+            <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+          </div>
+          </header>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="box1 col-lg-8 col-md-8 col-sm-11">
+                    <div class="iframe-container">
+                        <iframe class="responsive-iframe" src="data science vid.mp4" title="YouTube video player" frameborder="0"></iframe>
+                    </div>
+                    
+                
+                    <ul class="nav nav-tabs navigation-table" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#Q&A" role="tab" aria-controls="home" aria-selected="true">Q&A</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="Q&A" role="tabpanel" aria-labelledby="home-tab">
+                            <textarea name="" id="" cols="100" rows="10" placeholder="Ask the community a question"></textarea>
+                            <p>If any qureies you can ask here and follow up our Data science.</p>
+                        </div>
+                        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                            <p>contact us.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="box2 col-lg-4 col-md-4 col-sm-1">
+                    <ul class="video-table">
+   
+                        <li class="video-lessons" style="background-color:#003366;"><h5 style="color: aliceblue;">video Content</h5></li>
+                        <li class="video-lessons" ><p>1.Data Dynasty Event</p></li>
+                        <li class="video-lessons" ><p>2.Python Workshop</p></li>
+                        <li class="video-lessons" ><p>3.Get the Git</p></li>
+                        <li class="video-lessons" ><p>4.Code quest</p></li>
+                        <li class="video-lessons" ><p>5.Road map to crack internships </p></li>
+                        <li class="video-lessons" ><p>6.Aulimini section</p></li>
+                        <li class="video-lessons" ><p>7.Data Sturct</p></li>
+                        <li class="video-lessons" style="background-color:#003366;"><h5 style="color: aliceblue;">More videos</h5></li>
+                        <li class="video-lessons" id="video1"><p>1. DATA SCIENCE EVENT(part-1)</p></li>
+                        <li class="video-lessons" id="video2"><p>1. DATA SCIENCE EVENTS(2024 summary)</p></li>
+                        <li class="video-lessons" id="video3"><p>1. DATA SCIENCE EVENT(part-2)</p></li>
+                     </ul>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <script src="jQuery/jQuery.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        <script src="JS/index.js"></script>
+        <script>
+             $("#video1").click(function() {
+            $("iframe").attr("src", "part1.mp4");
+        });
+        $("#video2").click(function() {
+            $("iframe").attr("src", "data science vid.mp4");
+        });
+        $("#video3").click(function() {
+            $("iframe").attr("src", "..");
+        });
+    </script>
+    </body>
+</html>

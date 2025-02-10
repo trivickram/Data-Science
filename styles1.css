@@ -1,0 +1,41 @@
+/* General Styles */
+* {
+    scroll-behavior: smooth;
+    text-decoration: none;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  html,
+  body {
+    height: 100%;
+    font-family: "Open Sans", sans-serif;
+  }
+  
+  /* Background for Header */
+  header {
+    background: url('bgmain.jpeg') no-repeat center center;
+    background-size: cover;
+    text-align: center;
+    padding: 20px 0;
+  }
+  
+  .gvplogo img {
+    margin: 10px auto;
+    display: block;
+  }
+  
+  .dslogo img {
+    margin: 20px auto;
+    display: block;
+  }
+  
+  .container2 {
+    margin-top: 20px;
+  }
+  
+  .type-writer {
+    font-size: 1.5rem;
+    color: #fff;
+  }
+  
