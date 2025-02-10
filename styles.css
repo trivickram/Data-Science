@@ -684,19 +684,16 @@ header {
   animation: zoom-out 1.5s ease-out forwards;
 }
 
-@media (max-width: 768px) { 
+@media (max-width: 777px) { 
   .dslogo img {
     width: 80%;  /* Make the width scale smoothly */
     max-height: 200px; /* Adjust height limit for smaller screens */
   }
+  .type-writer{
+    font-size: small  ;
+  }
 }
 
-  .type-writer{
-    font-size:small;
-  }
-  .type-writer{
-    font-size:small;
-  }
 
 
 .dslogo h2 {
