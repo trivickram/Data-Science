@@ -683,12 +683,11 @@ header {
   animation: zoom-out 1.5s ease-out forwards;
 }
 
-/* Adjust for mobile screens */
 @media (max-width: 768px) { 
   .dslogo img {
-    max-height: 100px; /* Reduce max height for smaller screens */
+    max-height: 100px; 
     margin-top: 10px;
-    width: auto; /* Ensure aspect ratio is maintained */
+    width: auto; 
   }
   .type-writer{
     font-size:small;
@@ -714,7 +713,6 @@ header {
   }
 }
 
-/* Styles for each section */
 .section-container {
   display: flex;
   justify-content: space-around;
@@ -740,7 +738,6 @@ header {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Heading styles inside the boxes */
 .section-box h3 {
   font-size: 22px;
   color: white;
@@ -753,7 +750,6 @@ header {
   text-align: center;
 }
 
-/* Paragraph styles inside the boxes */
 .section-box p {
   font-size: 18px;
   color: rgb(156, 24, 24);
@@ -805,14 +801,14 @@ header {
   background-image: url("bgmain.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center; /* Ensures the background image stays centered */
+  background-position: center;
 }
 
-/* Apply adjustments for mobile devices */
-@media (max-width: 768px) { /* Targeting screens 768px or smaller */
+
+@media (max-width: 768px) { 
   .mainlg {
-    padding: 50px; /* Reduce padding to prevent zoom effect */
-    background-size: contain; /* Adjust if necessary */
+    padding: 50px; 
+    background-size: contain;
   }
 }
 
@@ -938,75 +934,69 @@ footer a:hover {
   }
 }
 .navbar {
-  background-color: #003366; /* Deep blue background */
+  background-color: #003366;
   padding: 40px;
   display: flex;
   justify-content: center;
 }
 
-/* Nav box with 3D effect */
 .nav-box {
-  background: rgba(255, 255, 255, 0.1); /* Slightly transparent white */
+  background: rgba(255, 255, 255, 0.1); 
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3),
-    inset 0 2px 4px rgba(255, 255, 255, 0.1); /* 3D shadow effect */
-  border-radius: 15px; /* Rounded corners */
+    inset 0 2px 4px rgba(255, 255, 255, 0.1); 
+  border-radius: 15px; 
   padding: 20px 40px;
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border for depth */
-  backdrop-filter: blur(10px); /* Glassmorphism blur effect */
+  border: 1px solid rgba(255, 255, 255, 0.2); 
+  backdrop-filter: blur(10px); 
   text-align: center;
 }
 
-/* Nav links styling */
 nav a {
   margin: 0 15px;
   text-decoration: none;
-  color: #ffffff; /* White text */
+  color: #ffffff; 
   font-weight: bold;
   font-size: 1.5em;
-  transition: all 0.3s ease; /* Smooth transition for hover */
+  transition: all 0.3s ease; 
 }
 
-/* Hover effect for links */
 nav a:hover {
-  color: #6699cc; /* Lighter blue on hover */
-  transform: translateY(-2px); /* Slight upward movement on hover */
+  color: #6699cc; 
+  transform: translateY(-2px); 
 }
 
-/* Add subtle animation to the nav box */
 .nav-box:hover {
-  transform: translateY(-5px); /* Box moves up slightly */
+  transform: translateY(-5px); 
   box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4),
     inset 0 4px 8px rgba(255, 255, 255, 0.2);
   transition: all 0.4s ease;
 }
 
-/* Media query for smaller screens */
 @media (max-width: 768px) {
   .nav-box {
-    padding: 15px 20px; /* Reduce padding for smaller screens */
+    padding: 15px 20px;
   }
 
   nav a {
-    font-size: 1.2em; /* Reduce font size */
-    margin: 0 10px; /* Decrease spacing between links */
+    font-size: 1.2em; 
+    margin: 0 10px;
   }
 }
 
-/* Media query for very small screens */
 @media (max-width: 480px) {
   .nav-box {
-    padding: 10px 15px; /* Further reduce padding */
+    padding: 10px 15px; 
   }
 
   nav {
     display: flex;
-    flex-direction: column; /* Stack links vertically */
+    flex-direction: column; 
     align-items: center;
   }
 
   nav a {
-    font-size: 1em; /* Smaller font size for very small screens */
-    margin: 10px 0; /* Add vertical spacing */
+    font-size: 1em; 
+    margin: 10px 0; 
   }
 }
 * {

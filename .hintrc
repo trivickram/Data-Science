@@ -10,6 +10,12 @@
           "backdrop-filter"
         ]
       }
+    ],
+    "axe/aria": [
+      "default",
+      {
+        "aria-required-parent": "off"
+      }
     ]
   }
 }

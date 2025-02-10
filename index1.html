@@ -18,7 +18,7 @@ body {
   overflow-y: auto;
   color: #fff;
   box-sizing: border-box;
-  position: relative; /* For proper positioning of content over the video */
+  position: relative; 
 }
 
 .video-container {
@@ -27,7 +27,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1; /* Places the video behind the content */
+  z-index: -1; 
   overflow: hidden;
 }
 
@@ -40,7 +40,7 @@ video {
   min-height: 100%;
   width: auto;
   height: auto;
-  object-fit: cover; /* Ensures the video covers the entire background */
+  object-fit: cover;
 }
 
   
@@ -54,7 +54,6 @@ video {
       animation: fadeIn 1s ease-in-out;
     }
   
-    /* Container styling */
     .container {
       width: 100%;
       max-width: 900px;
@@ -69,7 +68,6 @@ video {
     }
   
   
-    /* Event card styling */
     .event-card {
       margin-top: 20px;
       border-radius: 10px;
@@ -86,9 +84,8 @@ video {
       box-shadow: 0 4px 20px rgba(0, 204, 255, 0.5);
     }
   
-  /* Collapsible button styling */
 .collapsible {
-  position: relative; /* Ensure the pseudo-element is positioned relative to the button */
+  position: relative;
   cursor: pointer;
   padding: 15px;
   font-size: 1.4rem;
@@ -104,9 +101,8 @@ video {
   align-items: center;
   background: linear-gradient(45deg, #0056b3, #9eb8d3);
   transition: box-shadow 0.6s ease;
-  overflow: hidden; /* Keep the pseudo-element inside the button bounds */
-  z-index: 0; /* Ensure the main button content is on a lower layer */
-}
+  overflow: hidden;
+  z-index: 0; 
 
 .collapsible:hover {
   box-shadow: 0 6px 20px rgba(0, 123, 255, 0.5);
@@ -120,13 +116,13 @@ video {
   width: 100%;
   height: 100%;
   background: linear-gradient(45deg, #0f0f0f, #004080);
-  z-index: -1; /* Place it behind the button content */
-  transition: opacity 0.6s ease; /* Smooth transition */
-  opacity: 0; /* Initially hidden */
+  z-index: -1;
+  transition: opacity 0.6s ease; 
+  opacity: 0; 
 }
 
 .collapsible:hover::before {
-  opacity: 1; /* Gradually appear on hover */
+  opacity: 1;
 }
 
 .collapsible:after {
@@ -134,7 +130,7 @@ video {
   font-size: 1rem;
   transition: transform 0.4s ease;
   color: white;
-  z-index: 1; /* Ensure the arrow remains visible */
+  z-index: 1; 
 }
 
 .collapsible.active:after {
@@ -143,11 +139,10 @@ video {
 
 .collapsible * {
   position: relative;
-  z-index: 2; /* Ensure all text and child elements are above the background */
+  z-index: 2; 
 }
 
   
-    /* Content styling */
     .content {
       display: block;
       transition: max-height 0.4s ease, padding 0.4s ease;
@@ -162,7 +157,6 @@ video {
       animation: fadeInContent 0.6s ease-in-out;
     }
   
-    /* Table styling */
     table {
       width: 100%;
       border-collapse: separate;
@@ -195,7 +189,6 @@ video {
       list-style-type: disc;
     }
   
-    /* Event image styling */
     .event-image {
       display: block;
       max-width: 100%;
@@ -212,7 +205,6 @@ video {
       transform: scale(1.02);
     }
   
-    /* View images button styling */
     .view-images-button {
       display: inline-block;
       padding: 10px 25px;
@@ -241,7 +233,7 @@ video {
 
 .slide-image1 img {
   width: 100%;
-  height: 200px; /* Set a fixed height for uniform size */
+  height: 200px; 
   margin-bottom: 10px;
   border-radius: 10px;
   object-fit: cover;
@@ -453,21 +445,22 @@ a:hover::before {
 
 a:hover {
   color: rgb(156, 30, 30);
-}
-.search {
+}.search {
   position: relative;
   z-index: 1;
   padding: 20px;
   display: flex;
-  gap:10px;
-  flex-direction: row;
+  gap: 10px;
   justify-content: right;
-  align-items: right;
+  align-items: center;
   width: 100%;
+  flex-wrap: wrap; 
 }
 
 .input {
-  width: 400px;
+  width: 100%; 
+  max-width: 400px; 
+  min-width: 150px; 
   padding: 10px 15px;
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -475,16 +468,7 @@ a:hover {
   color: #ffffff;
   background-color: #333;
   box-sizing: border-box;
-}
-
-.input::placeholder {
-  color: #999;
-  opacity: 0.7;
-}
-
-.input:focus {
-  border-color: #007BFF;
-  outline: none;
+  flex-grow: 1; 
 }
 
 .search-button {
@@ -492,22 +476,58 @@ a:hover {
   border-radius: 10px;
   background-color: black;
   color: white;
-  margin-right: 20px;
   border: none;
   cursor: pointer;
   transition: background-color 0.5s ease-in-out, color 1.5s ease-in-out;
+  white-space: nowrap; 
 }
+
 .search-button:hover {
   background-color: rgb(59, 79, 192);
   color: white;
 }
+
+@media (max-width: 600px) {
+  .search {
+    flex-direction: column;
+    align-items: stretch; 
+  }
+
+  .input {
+    width: 100%; 
+  }
+
+  .search-button {
+    width: 100%;
+  }
+}
+
 .buttons {
   display: flex;
-  gap: 335px;
-  flex-direction: row;
-  justify-content: left;
-  align-items: left;
+  flex-wrap: wrap; 
+  gap: 20px; 
+  justify-content: flex-start;
+  align-items: center;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
 }
+
+.view-images-button {
+  padding: 10px 15px;
+  background-color: #007bff; 
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  text-align: center;
+  transition: background-color 0.3s;
+  flex: 1;
+  min-width: 150px; 
+}
+
+.view-images-button:hover {
+  background-color: #0056b3;
+}
+
 .sub {
   display: flex;
   width: 100%;
@@ -537,7 +557,7 @@ a:hover {
       display: flex;
       align-items: center;
       gap: 8px;
-      z-index: 9999; /* Ensures it's above all other elements */
+      z-index: 9999;
     }
     .suggestion-box:hover {
       cursor: pointer;
@@ -567,7 +587,6 @@ a:hover {
       }
     }
 
-    /* Responsive styling */
     @media (max-width: 900px) {
       .container {
         padding: 20px;
@@ -612,7 +631,6 @@ a:hover {
       }
     }
   
-    /* Animations */
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
