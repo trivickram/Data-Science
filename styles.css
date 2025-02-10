@@ -669,10 +669,11 @@ header {
   text-align: center;
   padding: 20px;
 }
-
 .dslogo img {
   max-width: 100%;
   height: auto;
+  width: 300px; /* Ensures default width */
+  max-height: 500px; /* Prevents sudden jumps */
   background: rgba(255, 255, 255, 0.1);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(0px);
@@ -685,10 +686,11 @@ header {
 
 @media (max-width: 768px) { 
   .dslogo img {
-    max-height: 100px; 
-    margin-top: 10px;
-    width: auto; 
+    width: 80%;  /* Make the width scale smoothly */
+    max-height: 200px; /* Adjust height limit for smaller screens */
   }
+}
+
   .type-writer{
     font-size:small;
   }
