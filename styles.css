@@ -685,18 +685,12 @@ header {
 
 @media (max-width: 768px) { 
   .dslogo img {
-<<<<<<< HEAD
     max-height: 100px; 
     margin-top: 10px;
     width: auto; 
   }
   .type-writer{
     font-size:small;
-=======
-    max-height: 100px; /* Reduce max height for smaller screens */
-    margin-top: 10px;
-    width: auto; /* Ensure aspect ratio is maintained */
->>>>>>> 5c791727a6039d8a9a543e7e6607b62e57404541
   }
   .type-writer{
     font-size:small;
